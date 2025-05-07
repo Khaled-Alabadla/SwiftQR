@@ -20,6 +20,11 @@ const initialQrCodeState: QrCodeState = {
   logoOpacity: 1,
   logoPadding: 4,
   includeMargin: true,
+  qrStyleOptions: {
+    dotsType: 'rounded', // Provide a default value
+    cornersSquareType: undefined,
+    cornersDotType: undefined,
+  },
 };
 
 const initialFormState: QrFormState = {
@@ -166,3 +171,4 @@ export default function Home() {
     </div>
   );
 }
+
