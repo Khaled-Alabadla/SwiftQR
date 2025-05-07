@@ -514,7 +514,7 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
                 <Textarea 
                   id="whatsapp-message" 
                   placeholder="Enter your message here" 
-                  value={qrFormState.whatsapp.message || ''} 
+                  value={qrFormState.whatsapp?.message || ''} 
                   onChange={(e) => handleInputChange('whatsapp', 'message', e.target.value)} 
                   className="mt-1"
                 />
@@ -582,4 +582,3 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
 };
 
 export default QrCodeForm;
-
