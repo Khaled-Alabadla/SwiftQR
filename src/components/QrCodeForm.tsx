@@ -25,6 +25,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { CalendarIcon, Palette, Settings2, Image as ImageIcon } from 'lucide-react';
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -137,30 +138,33 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
       </CardHeader>
       <CardContent>
         <Tabs value={qrFormState.activeTab} onValueChange={(value) => setQrFormState(prev => ({...prev, activeTab: value as QrContentType}))} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 mb-4">
-            {(['url', 'text', 'vcard', 'email', 'phone', 'wifi', 'event'] as QrContentType[]).map(tabName => (
-              <TabsTrigger key={tabName} value={tabName} className="capitalize text-xs sm:text-sm">
-                {tabName}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <ScrollArea className="w-full pb-2 mb-4">
+            <TabsList className="inline-flex h-auto p-1 bg-muted rounded-md">
+              {(['url', 'text', 'vcard', 'email', 'phone', 'wifi', 'event'] as QrContentType[]).map(tabName => (
+                <TabsTrigger key={tabName} value={tabName} className="capitalize text-xs sm:text-sm px-3 py-1.5">
+                  {tabName}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <ScrollBar orientation="horizontal" className="mt-2" />
+          </ScrollArea>
 
           <TabsContent value="url">
-            <div className="space-y-2 p-4 rounded-md border bg-card/50 shadow-sm">
+            <div className="space-y-4 p-6 rounded-lg border bg-card/50 shadow-sm">
               <Label htmlFor="url">Website URL</Label>
               <Input id="url" type="url" placeholder="https://example.com" value={qrFormState.url} onChange={(e) => handleInputChange('url', 'url', e.target.value)} />
             </div>
           </TabsContent>
 
           <TabsContent value="text">
-            <div className="space-y-2 p-4 rounded-md border bg-card/50 shadow-sm">
+            <div className="space-y-4 p-6 rounded-lg border bg-card/50 shadow-sm">
               <Label htmlFor="text">Plain Text</Label>
               <Textarea id="text" placeholder="Enter your text here" value={qrFormState.text} onChange={(e) => handleInputChange('text', 'text', e.target.value)} />
             </div>
           </TabsContent>
 
           <TabsContent value="vcard">
-            <div className="space-y-4 p-4 rounded-md border bg-card/50 shadow-sm">
+            <div className="space-y-4 p-6 rounded-lg border bg-card/50 shadow-sm">
               <h4 className="font-semibold text-lg">Contact Information (vCard)</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -213,7 +217,7 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
           </TabsContent>
 
           <TabsContent value="email">
-            <div className="space-y-4 p-4 rounded-md border bg-card/50 shadow-sm">
+            <div className="space-y-4 p-6 rounded-lg border bg-card/50 shadow-sm">
               <h4 className="font-semibold text-lg">Email Details</h4>
               <div>
                 <Label htmlFor="email-to">To</Label>
@@ -231,14 +235,14 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
           </TabsContent>
           
           <TabsContent value="phone">
-            <div className="space-y-2 p-4 rounded-md border bg-card/50 shadow-sm">
+            <div className="space-y-4 p-6 rounded-lg border bg-card/50 shadow-sm">
               <Label htmlFor="phone">Phone Number</Label>
               <Input id="phone" type="tel" placeholder="+1234567890" value={qrFormState.phone} onChange={(e) => handleInputChange('phone', 'phone', e.target.value)} />
             </div>
           </TabsContent>
 
           <TabsContent value="wifi">
-            <div className="space-y-4 p-4 rounded-md border bg-card/50 shadow-sm">
+            <div className="space-y-4 p-6 rounded-lg border bg-card/50 shadow-sm">
               <h4 className="font-semibold text-lg">Wi-Fi Credentials</h4>
               <div>
                 <Label htmlFor="wifi-ssid">Network Name (SSID)</Label>
@@ -269,7 +273,7 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
           </TabsContent>
 
           <TabsContent value="event">
-            <div className="space-y-4 p-4 rounded-md border bg-card/50 shadow-sm">
+            <div className="space-y-4 p-6 rounded-lg border bg-card/50 shadow-sm">
               <h4 className="font-semibold text-lg">Calendar Event</h4>
               <div>
                 <Label htmlFor="event-summary">Event Summary/Title</Label>
