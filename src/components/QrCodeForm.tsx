@@ -502,7 +502,7 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
                   id="whatsapp-phone" 
                   type="tel" 
                   placeholder="e.g., 15551234567 (for +1 555-123-4567)" 
-                  value={qrFormState.whatsapp.phone} 
+                  value={qrFormState.whatsapp?.phone || ''} 
                   onChange={(e) => handleInputChange('whatsapp', 'phone', e.target.value)} 
                   className="mt-1"
                   required
@@ -582,3 +582,4 @@ const QrCodeForm: React.FC<QrCodeFormProps> = ({ qrCodeState, setQrCodeState, qr
 };
 
 export default QrCodeForm;
+
