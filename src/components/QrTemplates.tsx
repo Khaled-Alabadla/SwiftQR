@@ -38,7 +38,7 @@ const templates: TemplateDefinition[] = [
       includeMargin: true,
     },
     previewImage: {
-      url: 'https://picsum.photos/200/200?grayscale&random=0', // Added unique random for picsum
+      url: 'https://picsum.photos/200/200?grayscale&random=0', 
       alt: 'Classic Dark QR Template Preview',
       aiHint: 'monochrome pattern',
     }
@@ -114,21 +114,33 @@ const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState, onTemplateApp
   
   const applyTemplate = (templateSettings: Partial<QrCodeState>) => {
     setQrCodeState(prev => {
-      // Ensure prev.qrStyleOptions is an object, defaulting if necessary (though it shouldn't be based on initial state)
       const baseQrStyleOptions = prev.qrStyleOptions || { dotsType: 'rounded' as DotType };
       
       const newQrStyleOptions = {
         ...baseQrStyleOptions,
-        ...(templateSettings.qrStyleOptions || {}), // templateSettings.qrStyleOptions from template should be an object
+        ...(templateSettings.qrStyleOptions || {}),
       };
 
+      // Preserve existing logo settings if not overridden by template
+      const newLogoSettings = {
+        logoUrl: templateSettings.logoUrl !== undefined ? templateSettings.logoUrl : prev.logoUrl,
+        logoSizeRatio: templateSettings.logoSizeRatio !== undefined ? templateSettings.logoSizeRatio : prev.logoSizeRatio,
+        logoOpacity: templateSettings.logoOpacity !== undefined ? templateSettings.logoOpacity : prev.logoOpacity,
+        logoPadding: templateSettings.logoPadding !== undefined ? templateSettings.logoPadding : prev.logoPadding,
+      };
+      
       return {
         ...prev,
-        ...templateSettings, // This will spread fgColor, bgColor, and also templateSettings.qrStyleOptions
-        qrStyleOptions: newQrStyleOptions, // This explicitly sets the merged qrStyleOptions, overriding the one from templateSettings if it was spread
+        ...templateSettings, 
+        qrStyleOptions: newQrStyleOptions,
+        ...newLogoSettings, // Apply merged logo settings
+        // Ensure other vital properties are not lost if not in templateSettings
+        size: templateSettings.size !== undefined ? templateSettings.size : prev.size,
+        level: templateSettings.level !== undefined ? templateSettings.level : prev.level,
+        includeMargin: templateSettings.includeMargin !== undefined ? templateSettings.includeMargin : prev.includeMargin,
       };
     });
-    onTemplateApplied?.(); // Call the callback if provided
+    onTemplateApplied?.(); 
   };
 
   return (
@@ -176,5 +188,3 @@ const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState, onTemplateApp
 };
 
 export default QrTemplates;
-
-```
