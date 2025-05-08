@@ -1,12 +1,13 @@
+
 import Link from 'next/link';
 
 const Footer = () => {
   return (
     <footer 
       className="border-t border-border/60 bg-background"
-      style={{ '--footer-height': '6rem' } as React.CSSProperties} // Corresponds to md:h-24 (6rem) or py-8, adjust if needed
+      style={{ '--footer-height': '6rem' } as React.CSSProperties}
     >
-      <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:h-24 md:flex-row md:py-0"> {/* md:h-24 sets height to 6rem on md+ */}
+      <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:h-24 md:flex-row md:py-0">
         <p className="text-center text-sm text-muted-foreground md:text-left">
           © {new Date().getFullYear()} SwiftQR. All rights reserved.
         </p>
@@ -14,11 +15,8 @@ const Footer = () => {
           <Link href="/#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             Features
           </Link>
-          <Link href="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          {/* <Link href="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             Pricing
-          </Link>
-          {/* <Link href="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            FAQ
           </Link> */}
           <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             Privacy Policy
