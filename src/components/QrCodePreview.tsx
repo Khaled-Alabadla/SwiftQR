@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -41,17 +42,17 @@ const QrCodePreview: React.FC<QrCodePreviewProps> = ({ qrCodeState, value }) => 
         margin: dynamicMargin,
         dotsOptions: {
             color: qrCodeState.fgColor,
-            type: qrCodeState.qrStyleOptions.dotsType, 
+            type: qrCodeState.qrStyleOptions?.dotsType || 'rounded', 
         },
         backgroundOptions: {
             color: qrCodeState.bgColor,
         },
         cornersSquareOptions: {
-            type: qrCodeState.qrStyleOptions.cornersSquareType, 
+            type: qrCodeState.qrStyleOptions?.cornersSquareType, 
             color: qrCodeState.fgColor,
         },
         cornersDotOptions: {
-            type: qrCodeState.qrStyleOptions.cornersDotType, 
+            type: qrCodeState.qrStyleOptions?.cornersDotType, 
             color: qrCodeState.fgColor,
         },
         image: qrCodeState.logoUrl || undefined,
@@ -108,9 +109,9 @@ const QrCodePreview: React.FC<QrCodePreviewProps> = ({ qrCodeState, value }) => 
           width: tempSize,
           height: tempSize,
           margin: tempMargin,
-          dotsOptions: { ...qrCodeStylingInstance._options.dotsOptions, type: qrCodeState.qrStyleOptions.dotsType },
-          cornersSquareOptions: { ...qrCodeStylingInstance._options.cornersSquareOptions, type: qrCodeState.qrStyleOptions.cornersSquareType },
-          cornersDotOptions: { ...qrCodeStylingInstance._options.cornersDotOptions, type: qrCodeState.qrStyleOptions.cornersDotType },
+          dotsOptions: { ...qrCodeStylingInstance._options.dotsOptions, type: qrCodeState.qrStyleOptions?.dotsType || 'rounded' },
+          cornersSquareOptions: { ...qrCodeStylingInstance._options.cornersSquareOptions, type: qrCodeState.qrStyleOptions?.cornersSquareType },
+          cornersDotOptions: { ...qrCodeStylingInstance._options.cornersDotOptions, type: qrCodeState.qrStyleOptions?.cornersDotType },
         };
         
         if (qrCodeState.logoUrl) {
@@ -137,7 +138,9 @@ const QrCodePreview: React.FC<QrCodePreviewProps> = ({ qrCodeState, value }) => 
         tempQrInstance.append(tempDiv); 
         
         if (qrCodeState.logoUrl) {
-          await new Promise(resolve => setTimeout(resolve, 300));
+          // Add a small delay to ensure the image is loaded and rendered in the temporary div, especially for PDF.
+          // This helps prevent issues where the logo might be missing or partially rendered in the PDF.
+          await new Promise(resolve => setTimeout(resolve, 300)); // 300ms delay
         }
 
         const dataUrl = await toPng(tempDiv.firstChild as HTMLElement, { 
@@ -153,8 +156,9 @@ const QrCodePreview: React.FC<QrCodePreviewProps> = ({ qrCodeState, value }) => 
         const pdf = new jsPDF({
           orientation: 'portrait',
           unit: 'px',
-          format: [qrCodeState.size + 40, qrCodeState.size + 40],
+          format: [qrCodeState.size + 40, qrCodeState.size + 40], // Page size based on QR size + padding
         });
+        // Center the image on the PDF page
         const xOffset = (pdf.internal.pageSize.getWidth() - qrCodeState.size) / 2;
         const yOffset = (pdf.internal.pageSize.getHeight() - qrCodeState.size) / 2;
         pdf.addImage(dataUrl, 'PNG', xOffset, yOffset, qrCodeState.size, qrCodeState.size);
@@ -184,8 +188,10 @@ const QrCodePreview: React.FC<QrCodePreviewProps> = ({ qrCodeState, value }) => 
     );
   }
   
+  // Use the actual size set for the QR code instance for rendering within its container
   const qrInstanceRenderSize = qrCodeState.size; 
-  const previewContainerPadding = 16; 
+  // Calculate total container size including padding. Preview container ensures this padding.
+  const previewContainerPadding = 16; // 8px padding on each side (p-2 is 8px, so total 16px for width/height)
   const previewContainerSize = qrInstanceRenderSize + previewContainerPadding;
   const isQrValueEmpty = !value || value === 'https://swiftqr.dev/empty-placeholder';
 
@@ -196,11 +202,11 @@ const QrCodePreview: React.FC<QrCodePreviewProps> = ({ qrCodeState, value }) => 
       </CardHeader>
       <CardContent className="p-4 sm:p-6 flex flex-col items-center justify-center w-full">
         <div
-          className="p-2 shadow-lg rounded-lg flex items-center justify-center border border-border/50 overflow-hidden"
+          className="p-2 shadow-lg rounded-lg flex items-center justify-center border border-border/50 overflow-hidden" // p-2 for visual padding
           style={{ 
             width: previewContainerSize, 
             height: previewContainerSize,
-            backgroundColor: qrCodeState.bgColor,
+            backgroundColor: qrCodeState.bgColor, // Background color for the container
           }}
           data-ai-hint="qr code preview"
         >

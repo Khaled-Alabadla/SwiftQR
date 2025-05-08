@@ -38,7 +38,7 @@ const templates: TemplateDefinition[] = [
       includeMargin: true,
     },
     previewImage: {
-      url: 'https://picsum.photos/200/200?grayscale',
+      url: 'https://picsum.photos/200/200?grayscale&random=0', // Added unique random for picsum
       alt: 'Classic Dark QR Template Preview',
       aiHint: 'monochrome pattern',
     }
@@ -107,27 +107,33 @@ const templates: TemplateDefinition[] = [
 
 interface QrTemplatesProps {
   setQrCodeState: Dispatch<SetStateAction<QrCodeState>>;
+  onTemplateApplied?: () => void; // Optional callback
 }
 
-const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState }) => {
+const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState, onTemplateApplied }) => {
   
   const applyTemplate = (templateSettings: Partial<QrCodeState>) => {
     setQrCodeState(prev => {
+      // Ensure prev.qrStyleOptions is an object, defaulting if necessary (though it shouldn't be based on initial state)
+      const baseQrStyleOptions = prev.qrStyleOptions || { dotsType: 'rounded' as DotType };
+      
       const newQrStyleOptions = {
-        ...prev.qrStyleOptions,
-        ...templateSettings.qrStyleOptions,
+        ...baseQrStyleOptions,
+        ...(templateSettings.qrStyleOptions || {}), // templateSettings.qrStyleOptions from template should be an object
       };
+
       return {
         ...prev,
-        ...templateSettings,
-        qrStyleOptions: newQrStyleOptions,
+        ...templateSettings, // This will spread fgColor, bgColor, and also templateSettings.qrStyleOptions
+        qrStyleOptions: newQrStyleOptions, // This explicitly sets the merged qrStyleOptions, overriding the one from templateSettings if it was spread
       };
     });
+    onTemplateApplied?.(); // Call the callback if provided
   };
 
   return (
-    <Card className="w-full shadow-none border-0 bg-popover text-popover-foreground"> {/* Removed mb-8, adjusted border and bg for popover */}
-      <CardHeader className="p-4 sm:p-6"> {/* Adjusted padding */}
+    <Card className="w-full shadow-none border-0 bg-popover text-popover-foreground">
+      <CardHeader className="p-4 sm:p-6">
         <CardTitle className="text-xl sm:text-2xl font-bold text-primary flex items-center">
           <Zap className="mr-2.5 h-6 w-6" />
           Quick Styles & Templates
@@ -136,11 +142,11 @@ const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState }) => {
           Choose a pre-defined style or customize everything in the form.
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-4 sm:p-6"> {/* Adjusted padding */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4"> {/* Adjusted grid for responsiveness in popover */}
+      <CardContent className="p-4 sm:p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {templates.map((template) => (
             <Card key={template.id} className="flex flex-col overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-card text-card-foreground border-border">
-              <CardHeader className="p-3 sm:p-4"> {/* Adjusted padding */}
+              <CardHeader className="p-3 sm:p-4">
                 <CardTitle className="text-base sm:text-lg">{template.name}</CardTitle>
               </CardHeader>
               <CardContent className="p-3 sm:p-4 flex-grow">
@@ -170,3 +176,5 @@ const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState }) => {
 };
 
 export default QrTemplates;
+
+```

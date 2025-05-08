@@ -1,15 +1,16 @@
 
 'use client';
 
+import type { QrCodeState, QrFormState, ErrorCorrectionLevel, QrContentType, DotType } from '@/types/qr';
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import QrCodeForm from '@/components/QrCodeForm';
 import QrCodePreview from '@/components/QrCodePreview';
-// import QrTemplates from '@/components/QrTemplates'; // Removed from here
-import type { QrCodeState, QrFormState, ErrorCorrectionLevel, QrContentType, DotType } from '@/types/qr';
 import { generateQrValue } from '@/lib/qrUtils';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Zap, Palette, Settings, Code2, LayoutGrid, Smartphone } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 const initialQrCodeState: QrCodeState = {
   value: 'https://swiftqr.dev',
@@ -39,7 +40,7 @@ const initialFormState: QrFormState = {
   wifi: { ssid: '', encryption: 'WPA', hidden: false },
   event: { summary: '', dtstart: null, dtend: null, allDay: false },
   location: { latitude: '', longitude: '', query: '' },
-  sms: { recipient: '' },
+  sms: { recipient: '' , message: ''},
   whatsapp: { phone: '' , message: ''},
   bitcoin: { address: '', amount: '', label: '', message: '' },
 };
@@ -83,7 +84,7 @@ export default function Home() {
         ...prev,
         fgColor: newFgColor,
         bgColor: newBgColor,
-         qrStyleOptions: { // Ensure qrStyleOptions is always defined
+         qrStyleOptions: { 
           dotsType: prev.qrStyleOptions?.dotsType || 'rounded',
           cornersSquareType: prev.qrStyleOptions?.cornersSquareType,
           cornersDotType: prev.qrStyleOptions?.cornersDotType,
@@ -113,9 +114,8 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header qrCodeState={qrCodeState} setQrCodeState={setQrCodeState} />
       <main className="flex-grow container mx-auto px-4 py-8">
-        {/* <QrTemplates setQrCodeState={setQrCodeState} /> Removed from here */}
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full min-h-[calc(100vh-var(--header-height)-var(--footer-height)-2rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full min-h-[calc(100vh-var(--header-height)-var(--footer-height)-4rem)]"> {/* Adjusted min-h for features section space */}
           <div className="h-full"> 
             <QrCodeForm 
               qrCodeState={qrCodeState}
@@ -128,6 +128,68 @@ export default function Home() {
              <QrCodePreview qrCodeState={qrCodeState} value={currentQrValue} />
           </div>
         </div>
+
+        <section id="features" className="py-12 sm:py-16">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-3">Features</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              SwiftQR offers a comprehensive suite of tools to create, customize, and manage your QR codes effortlessly.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {[
+              {
+                icon: <Zap className="h-8 w-8 text-accent" />,
+                title: 'Dynamic QR Types',
+                description: 'Generate codes for URLs, text, vCards, Wi-Fi, events, locations, SMS, WhatsApp, Bitcoin, and more.',
+                aiHint: 'data connection',
+              },
+              {
+                icon: <Palette className="h-8 w-8 text-accent" />,
+                title: 'Advanced Customization',
+                description: 'Tailor colors, add logos, choose dot and corner styles, and adjust margins to match your brand.',
+                aiHint: 'color palette',
+              },
+              {
+                icon: <Settings className="h-8 w-8 text-accent" />,
+                title: 'High Error Correction',
+                description: 'Select from multiple error correction levels (L, M, Q, H) to ensure scannability.',
+                aiHint: 'gear settings',
+              },
+              {
+                icon: <Code2 className="h-8 w-8 text-accent" />,
+                title: 'Multiple Export Formats',
+                description: 'Download your QR codes in PNG, SVG, or PDF formats for versatile use.',
+                aiHint: 'file formats',
+              },
+              {
+                icon: <LayoutGrid className="h-8 w-8 text-accent" />,
+                title: 'Pre-designed Templates',
+                description: 'Quickly apply professional styles with our curated QR code templates.',
+                aiHint: 'grid layout',
+              },
+              {
+                icon: <Smartphone className="h-8 w-8 text-accent" />,
+                title: 'Mobile Friendly',
+                description: 'Easily create and manage QR codes on any device, thanks to our responsive design.',
+                aiHint: 'mobile responsive',
+              },
+            ].map((feature, index) => (
+              <Card key={index} className="bg-card shadow-lg hover:shadow-xl transition-shadow duration-300 border-border/60" data-ai-hint={feature.aiHint}>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    {feature.icon}
+                    <CardTitle className="text-xl text-primary">{feature.title}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
       </main>
       <Footer />
     </div>

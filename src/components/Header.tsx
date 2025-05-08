@@ -1,5 +1,6 @@
 
 import type React from 'react';
+import { useState } from 'react'; // Import useState
 import Link from 'next/link';
 import SwiftQrLogo from '@/components/icons/SwiftQrLogo';
 import { buttonVariants, Button } from '@/components/ui/button';
@@ -10,11 +11,13 @@ import type { QrCodeState } from '@/types/qr';
 import type { Dispatch, SetStateAction } from 'react';
 
 interface HeaderProps {
-  qrCodeState: QrCodeState;
+  qrCodeState: QrCodeState; // Though not directly used by Header, passed down
   setQrCodeState: Dispatch<SetStateAction<QrCodeState>>;
 }
 
 const Header: React.FC<HeaderProps> = ({ qrCodeState, setQrCodeState }) => {
+  const [isTemplatesPopoverOpen, setIsTemplatesPopoverOpen] = useState(false);
+
   return (
     <header 
       className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-md"
@@ -28,9 +31,9 @@ const Header: React.FC<HeaderProps> = ({ qrCodeState, setQrCodeState }) => {
           <Link href="/#features" className={buttonVariants({ variant: "ghost", size: "sm" })}>
             Features
           </Link>
-          <Popover>
+          <Popover open={isTemplatesPopoverOpen} onOpenChange={setIsTemplatesPopoverOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" onClick={() => setIsTemplatesPopoverOpen(true)}>
                 <LayoutGrid className="mr-1.5 h-4 w-4" />
                 Templates
               </Button>
@@ -40,7 +43,10 @@ const Header: React.FC<HeaderProps> = ({ qrCodeState, setQrCodeState }) => {
               align="end"
               sideOffset={8}
             >
-              <QrTemplates setQrCodeState={setQrCodeState} />
+              <QrTemplates 
+                setQrCodeState={setQrCodeState} 
+                onTemplateApplied={() => setIsTemplatesPopoverOpen(false)} // Close popover on apply
+              />
             </PopoverContent>
           </Popover>
         </nav>
