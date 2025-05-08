@@ -1,18 +1,26 @@
+
+import type React from 'react';
 import Link from 'next/link';
 import SwiftQrLogo from '@/components/icons/SwiftQrLogo';
-import { buttonVariants } from '@/components/ui/button';
-// import { Moon, Sun } from 'lucide-react';
-// import { useTheme } from 'next-themes'; // if you add next-themes
+import { buttonVariants, Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import QrTemplates from '@/components/QrTemplates';
+import { LayoutGrid } from 'lucide-react';
+import type { QrCodeState } from '@/types/qr';
+import type { Dispatch, SetStateAction } from 'react';
 
-const Header = () => {
-  // const { setTheme, theme } = useTheme(); // if you add next-themes
+interface HeaderProps {
+  qrCodeState: QrCodeState;
+  setQrCodeState: Dispatch<SetStateAction<QrCodeState>>;
+}
 
+const Header: React.FC<HeaderProps> = ({ qrCodeState, setQrCodeState }) => {
   return (
     <header 
       className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-md"
-      style={{ '--header-height': '4rem' } as React.CSSProperties} // Standard height for h-16, directly set here.
+      style={{ '--header-height': '4rem' } as React.CSSProperties}
     >
-      <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4"> {/* h-16 sets height to 4rem */}
+      <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
           <SwiftQrLogo />
         </Link>
@@ -20,26 +28,21 @@ const Header = () => {
           <Link href="/#features" className={buttonVariants({ variant: "ghost", size: "sm" })}>
             Features
           </Link>
-          {/* 
-          <Link href="/blog" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-            Blog
-          </Link>
-          <Link href="/contact" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-            Contact
-          </Link> 
-          */}
-          {/* Placeholder for future dark mode toggle or other nav items */}
-          {/* Example dark mode toggle if next-themes is installed:
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            aria-label="Toggle theme"
-          >
-            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          </Button>
-          */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <LayoutGrid className="mr-1.5 h-4 w-4" />
+                Templates
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent 
+              className="w-[calc(100vw-2rem)] max-w-[800px] sm:w-[600px] md:w-[700px] lg:w-[800px] p-0 mt-2 shadow-2xl" 
+              align="end"
+              sideOffset={8}
+            >
+              <QrTemplates setQrCodeState={setQrCodeState} />
+            </PopoverContent>
+          </Popover>
         </nav>
       </div>
     </header>

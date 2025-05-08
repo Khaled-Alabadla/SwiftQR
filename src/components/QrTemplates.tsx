@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -92,7 +93,7 @@ const templates: TemplateDefinition[] = [
       qrStyleOptions: {
         dotsType: 'classy-rounded' as DotType,
         cornersSquareType: 'extra-rounded' as CornerSquareType,
-        cornersDotType: undefined,
+        cornersDotType: undefined, // Default
       },
       includeMargin: true,
     },
@@ -106,14 +107,12 @@ const templates: TemplateDefinition[] = [
 
 interface QrTemplatesProps {
   setQrCodeState: Dispatch<SetStateAction<QrCodeState>>;
-  // currentQrCodeState: QrCodeState; // Could be used to highlight active template
 }
 
 const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState }) => {
   
   const applyTemplate = (templateSettings: Partial<QrCodeState>) => {
     setQrCodeState(prev => {
-      // Ensure qrStyleOptions are merged correctly
       const newQrStyleOptions = {
         ...prev.qrStyleOptions,
         ...templateSettings.qrStyleOptions,
@@ -127,37 +126,38 @@ const QrTemplates: React.FC<QrTemplatesProps> = ({ setQrCodeState }) => {
   };
 
   return (
-    <Card className="w-full mb-8 shadow-lg border-border/70 bg-card">
-      <CardHeader>
-        <CardTitle className="text-2xl sm:text-3xl font-bold text-primary flex items-center">
-          <Zap className="mr-3 h-7 w-7" />
+    <Card className="w-full shadow-none border-0 bg-popover text-popover-foreground"> {/* Removed mb-8, adjusted border and bg for popover */}
+      <CardHeader className="p-4 sm:p-6"> {/* Adjusted padding */}
+        <CardTitle className="text-xl sm:text-2xl font-bold text-primary flex items-center">
+          <Zap className="mr-2.5 h-6 w-6" />
           Quick Styles & Templates
         </CardTitle>
-        <CardDescription>
-          Choose a pre-defined style to get started quickly, or customize everything yourself below.
+        <CardDescription className="text-sm">
+          Choose a pre-defined style or customize everything in the form.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <CardContent className="p-4 sm:p-6"> {/* Adjusted padding */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4"> {/* Adjusted grid for responsiveness in popover */}
           {templates.map((template) => (
-            <Card key={template.id} className="flex flex-col overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="p-4">
-                <CardTitle className="text-lg">{template.name}</CardTitle>
+            <Card key={template.id} className="flex flex-col overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-card text-card-foreground border-border">
+              <CardHeader className="p-3 sm:p-4"> {/* Adjusted padding */}
+                <CardTitle className="text-base sm:text-lg">{template.name}</CardTitle>
               </CardHeader>
-              <CardContent className="p-4 flex-grow">
-                <div className="aspect-square w-full bg-muted rounded-md mb-3 overflow-hidden relative">
+              <CardContent className="p-3 sm:p-4 flex-grow">
+                <div className="aspect-square w-full bg-muted rounded-md mb-2 sm:mb-3 overflow-hidden relative">
                   <Image 
                     src={template.previewImage.url} 
                     alt={template.previewImage.alt} 
                     layout="fill"
                     objectFit="cover"
-                    data-ai-hint={template.previewImage.aiHint} 
+                    data-ai-hint={template.previewImage.aiHint}
+                    className="rounded-md"
                   />
                 </div>
-                <CardDescription className="text-sm">{template.description}</CardDescription>
+                <CardDescription className="text-xs sm:text-sm">{template.description}</CardDescription>
               </CardContent>
-              <CardFooter className="p-4 border-t mt-auto">
-                <Button onClick={() => applyTemplate(template.settings)} className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+              <CardFooter className="p-3 sm:p-4 border-t mt-auto border-border/50">
+                <Button onClick={() => applyTemplate(template.settings)} className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground text-xs sm:text-sm py-2">
                   Apply Style
                 </Button>
               </CardFooter>

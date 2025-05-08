@@ -6,7 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import QrCodeForm from '@/components/QrCodeForm';
 import QrCodePreview from '@/components/QrCodePreview';
-import QrTemplates from '@/components/QrTemplates'; // Import the new component
+// import QrTemplates from '@/components/QrTemplates'; // Removed from here
 import type { QrCodeState, QrFormState, ErrorCorrectionLevel, QrContentType, DotType } from '@/types/qr';
 import { generateQrValue } from '@/lib/qrUtils';
 import { Loader2 } from 'lucide-react';
@@ -33,7 +33,7 @@ const initialFormState: QrFormState = {
   activeTab: 'url' as QrContentType,
   url: 'https://swiftqr.dev',
   text: 'Hello from SwiftQR!',
-  vCard: { /* All fields optional, initialized as empty or undefined */ },
+  vCard: { },
   email: { to: '', subject: '', body: '' },
   phone: '',
   wifi: { ssid: '', encryption: 'WPA', hidden: false },
@@ -74,18 +74,16 @@ export default function Home() {
       if(fgR_str && fgG_str && fgB_str) {
         newFgColor = rgbToHex(parseInt(fgR_str), parseInt(fgG_str), parseInt(fgB_str));
       }
-      // No fallback to HSL conversion for foreground as RGB should be defined
 
       if(cardR_str && cardG_str && cardB_str) {
         newBgColor = rgbToHex(parseInt(cardR_str), parseInt(cardG_str), parseInt(cardB_str));
       }
-      // No fallback to HSL conversion for background as RGB should be defined
       
       setQrCodeState(prev => ({
         ...prev,
         fgColor: newFgColor,
         bgColor: newBgColor,
-         qrStyleOptions: {
+         qrStyleOptions: { // Ensure qrStyleOptions is always defined
           dotsType: prev.qrStyleOptions?.dotsType || 'rounded',
           cornersSquareType: prev.qrStyleOptions?.cornersSquareType,
           cornersDotType: prev.qrStyleOptions?.cornersDotType,
@@ -113,11 +111,10 @@ export default function Home() {
   
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header />
+      <Header qrCodeState={qrCodeState} setQrCodeState={setQrCodeState} />
       <main className="flex-grow container mx-auto px-4 py-8">
-        <QrTemplates setQrCodeState={setQrCodeState} /> {/* Add QrTemplates component */}
+        {/* <QrTemplates setQrCodeState={setQrCodeState} /> Removed from here */}
         
-        {/* Adjusted min-height using CSS variables defined in Header/Footer and globals.css */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full min-h-[calc(100vh-var(--header-height)-var(--footer-height)-2rem)]">
           <div className="h-full"> 
             <QrCodeForm 
@@ -127,7 +124,6 @@ export default function Home() {
               setQrFormState={setQrFormState}
             />
           </div>
-          {/* Sticky top positioning uses CSS variable for header height */}
           <div className="h-full flex items-start justify-center lg:sticky lg:top-[calc(var(--header-height)+1rem)] pt-0 lg:pt-0">
              <QrCodePreview qrCodeState={qrCodeState} value={currentQrValue} />
           </div>
