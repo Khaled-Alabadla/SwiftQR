@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -5,7 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import QrCodeForm from '@/components/QrCodeForm';
 import QrCodePreview from '@/components/QrCodePreview';
-import type { QrCodeState, QrFormState, ErrorCorrectionLevel, QrContentType } from '@/types/qr';
+import type { QrCodeState, QrFormState, ErrorCorrectionLevel, QrContentType, DotType } from '@/types/qr';
 import { generateQrValue } from '@/lib/qrUtils';
 import { Loader2 } from 'lucide-react';
 
@@ -21,7 +22,7 @@ const initialQrCodeState: QrCodeState = {
   logoPadding: 4,
   includeMargin: true,
   qrStyleOptions: {
-    dotsType: 'rounded', // Provide a default value
+    dotsType: 'rounded' as DotType, 
     cornersSquareType: undefined,
     cornersDotType: undefined,
   },
@@ -32,12 +33,14 @@ const initialFormState: QrFormState = {
   url: 'https://swiftqr.dev',
   text: 'Hello from SwiftQR!',
   vCard: { /* All fields optional, initialized as empty or undefined */ },
-  email: { to: '', subject: '', body: '' }, // `to` is technically required for mailto
+  email: { to: '', subject: '', body: '' },
   phone: '',
-  wifi: { ssid: '', encryption: 'WPA', hidden: false }, // ssid is required for WIFI type
-  event: { summary: '', dtstart: null, dtend: null, allDay: false }, // summary, dtstart, dtend are typically required
+  wifi: { ssid: '', encryption: 'WPA', hidden: false },
+  event: { summary: '', dtstart: null, dtend: null, allDay: false },
   location: { latitude: '', longitude: '', query: '' },
-  sms: { recipient: '' }, // recipient is required for smsto
+  sms: { recipient: '' },
+  whatsapp: { phone: '' , message: ''}, // Initialize whatsapp
+  bitcoin: { address: '', amount: '', label: '', message: '' }, // Initialize bitcoin
 };
 
 // Helper to convert HSL string to Hex (simplified, assumes HSL format from CSS)
@@ -126,6 +129,11 @@ export default function Home() {
         ...prev,
         fgColor: newFgColor,
         bgColor: newBgColor,
+         qrStyleOptions: { // Ensure qrStyleOptions is initialized
+          dotsType: prev.qrStyleOptions?.dotsType || 'rounded',
+          cornersSquareType: prev.qrStyleOptions?.cornersSquareType,
+          cornersDotType: prev.qrStyleOptions?.cornersDotType,
+        },
       }));
     }
   }, []);
@@ -171,4 +179,3 @@ export default function Home() {
     </div>
   );
 }
-

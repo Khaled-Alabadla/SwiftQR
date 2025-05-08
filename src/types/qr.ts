@@ -1,6 +1,12 @@
-export type QrContentType = 'url' | 'text' | 'vcard' | 'email' | 'phone' | 'wifi' | 'event' | 'location' | 'sms';
+
+export type QrContentType = 'url' | 'text' | 'vcard' | 'email' | 'phone' | 'wifi' | 'event' | 'location' | 'sms' | 'whatsapp' | 'bitcoin';
 
 export type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
+
+export type DotType = "rounded" | "dots" | "classy" | "classy-rounded" | "square" | "extra-rounded";
+export type CornerSquareType = undefined | "dot" | "square" | "extra-rounded";
+export type CornerDotType = undefined | "dot" | "square";
+
 
 export interface VCardData {
   firstName?: string;
@@ -48,6 +54,18 @@ export interface SmsData {
   message?: string;
 }
 
+export interface WhatsAppData {
+  phone: string; // Required, digits only, international format (e.g. 15551234567)
+  message?: string;
+}
+
+export interface BitcoinData {
+  address: string; // Required
+  amount?: string; // String to allow for precise decimal values
+  label?: string;
+  message?: string;
+}
+
 export interface QrCodeState {
   value: string;
   fgColor: string;
@@ -55,10 +73,15 @@ export interface QrCodeState {
   size: number;
   level: ErrorCorrectionLevel;
   logoUrl?: string;
-  logoSizeRatio: number; 
-  logoOpacity: number; 
-  logoPadding: number; 
+  logoSizeRatio: number;
+  logoOpacity: number;
+  logoPadding: number;
   includeMargin: boolean;
+  qrStyleOptions: {
+    dotsType: DotType;
+    cornersSquareType?: CornerSquareType;
+    cornersDotType?: CornerDotType;
+  };
 }
 
 export interface QrFormState {
@@ -72,4 +95,6 @@ export interface QrFormState {
   event: EventData;
   location: LocationData;
   sms: SmsData;
+  whatsapp: WhatsAppData;
+  bitcoin: BitcoinData;
 }
