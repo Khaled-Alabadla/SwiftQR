@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import SwiftQrLogo from '@/components/icons/SwiftQrLogo';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 // import { Moon, Sun } from 'lucide-react';
 // import { useTheme } from 'next-themes'; // if you add next-themes
 
@@ -20,21 +20,14 @@ const Header = () => {
           <Link href="/#features" className={buttonVariants({ variant: "ghost", size: "sm" })}>
             Features
           </Link>
-          <Link href="/pricing" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-            Pricing
-          </Link>
-          {/* <Link href="/blog" className={buttonVariants({ variant: "ghost", size: "sm" })}>
+          {/* 
+          <Link href="/blog" className={buttonVariants({ variant: "ghost", size: "sm" })}>
             Blog
           </Link>
           <Link href="/contact" className={buttonVariants({ variant: "ghost", size: "sm" })}>
             Contact
-          </Link> */}
-          <Link href="/login" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-            Login
-          </Link>
-          <Link href="/signup" className={buttonVariants({ variant: "default", size: "sm" })}>
-            Sign Up
-          </Link>
+          </Link> 
+          */}
           {/* Placeholder for future dark mode toggle or other nav items */}
           {/* Example dark mode toggle if next-themes is installed:
           <Button

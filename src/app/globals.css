@@ -19,16 +19,16 @@ body {
     --popover: 0 0% 100%; /* White */
     --popover-foreground: 220 15% 25%;
 
-    --primary: 221 83% 53%; /* Vibrant Blue (e.g., #2563EB) */
+    --primary: 217 91% 60%; /* #3B82F6 blue */
     --primary-foreground: 210 40% 98%; /* Almost white for good contrast on blue */
 
-    --secondary: 170 70% 45%; /* Vibrant Teal/Cyan (e.g., #14B8A6) */
+    --secondary: 160 83% 39%; /* #10B981 green */
     --secondary-foreground: 0 0% 100%; /* White */
 
     --muted: 220 15% 94%; /* Lighter gray for muted elements */
     --muted-foreground: 220 10% 45%; /* Darker gray for muted text */
 
-    --accent: 270 70% 55%; /* Vibrant Purple (e.g., #8B5CF6) */
+    --accent: 258 90% 66%; /* #8B5CF6 purple */
     --accent-foreground: 0 0% 100%; /* White */
 
     --destructive: 0 75% 55%; /* Vibrant Red */
@@ -36,11 +36,11 @@ body {
 
     --border: 220 15% 88%; /* Subtle border color */
     --input: 0 0% 100%; /* White for input background, rely on border */
-    --ring: 221 83% 53%; /* Primary color for ring */
+    --ring: 217 91% 60%; /* Primary color for ring */
 
-    --chart-1: 221 83% 53%; /* Primary */
-    --chart-2: 170 70% 45%; /* Secondary */
-    --chart-3: 270 70% 55%; /* Accent */
+    --chart-1: 217 91% 60%; /* Primary */
+    --chart-2: 160 83% 39%; /* Secondary */
+    --chart-3: 258 90% 66%; /* Accent */
     --chart-4: 30 90% 55%;  /* Orange-ish */
     --chart-5: 330 85% 60%; /* Pink-ish */
 
@@ -49,12 +49,12 @@ body {
     /* Sidebar variables, adapt to new theme */
     --sidebar-background: 220 20% 95%; /* Slightly darker than main bg */
     --sidebar-foreground: 220 15% 25%;
-    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 270 70% 55%;
+    --sidebar-accent: 258 90% 66%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 220 15% 88%;
-    --sidebar-ring: 221 83% 53%;
+    --sidebar-ring: 217 91% 60%;
 
     /* Heights for layout calculations */
     --header-height: 4rem; /* h-16 */
@@ -73,40 +73,40 @@ body {
     --popover: 220 15% 10%; /* Darker for popovers */
     --popover-foreground: 220 10% 90%;
 
-    --primary: 221 83% 63%; /* Slightly lighter primary for dark mode */
-    --primary-foreground: 220 15% 15%;
+    --primary: 217 91% 70%; /* Lighter blue for dark mode */
+    --primary-foreground: 220 15% 15%; /* Dark text on lighter blue */
 
-    --secondary: 170 70% 55%; /* Slightly lighter secondary */
-    --secondary-foreground: 220 15% 15%;
+    --secondary: 160 83% 50%; /* Lighter green for dark mode */
+    --secondary-foreground: 220 15% 15%; /* Dark text on lighter green */
 
     --muted: 220 15% 20%; /* Darker muted background */
     --muted-foreground: 220 10% 65%; /* Lighter muted foreground */
 
-    --accent: 270 70% 65%; /* Slightly lighter accent */
-    --accent-foreground: 220 15% 15%;
+    --accent: 258 90% 75%; /* Lighter purple for dark mode */
+    --accent-foreground: 220 15% 15%; /* Dark text on lighter purple */
 
     --destructive: 0 70% 60%; /* Slightly adjusted destructive */
     --destructive-foreground: 0 0% 100%;
 
     --border: 220 15% 30%; /* Darker border */
     --input: 220 15% 18%; /* Darker input background */
-    --ring: 221 83% 63%;
+    --ring: 217 91% 70%; /* Primary color (dark mode) for ring */
 
-    --chart-1: 221 83% 63%; /* Primary Dark */
-    --chart-2: 170 70% 55%; /* Secondary Dark */
-    --chart-3: 270 70% 65%; /* Accent Dark */
+    --chart-1: 217 91% 70%; /* Primary Dark */
+    --chart-2: 160 83% 50%; /* Secondary Dark */
+    --chart-3: 258 90% 75%; /* Accent Dark */
     --chart-4: 30 80% 65%;  /* Orange-ish Dark */
     --chart-5: 330 80% 70%; /* Pink-ish Dark */
 
     /* Sidebar variables for dark mode */
     --sidebar-background: 220 15% 10%;
     --sidebar-foreground: 220 10% 90%;
-    --sidebar-primary: 221 83% 63%;
+    --sidebar-primary: 217 91% 70%;
     --sidebar-primary-foreground: 220 15% 15%;
-    --sidebar-accent: 270 70% 65%;
+    --sidebar-accent: 258 90% 75%;
     --sidebar-accent-foreground: 220 15% 15%;
     --sidebar-border: 220 15% 30%;
-    --sidebar-ring: 221 83% 63%;
+    --sidebar-ring: 217 91% 70%;
   }
 }
 
