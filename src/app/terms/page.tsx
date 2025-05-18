@@ -201,7 +201,7 @@ export default function TermsPage() {
             </h3>
             <p>
               If you have any questions about these Terms of Service, please
-              contact us at [ Contact Email/Link].
+              contact us at swift.no-reply@gmail.com.
             </p>
           </CardContent>
         </Card>
