@@ -1,5 +1,7 @@
-# Firebase Studio
+# SwiftQR – Easy and Fast QR Code Generator and Scanner
 
-This is a NextJS starter in Firebase Studio.
+SwiftQR is a simple tool that lets you quickly create and scan QR codes. It helps you share information like links, text, or contact details easily using QR codes.
 
-To get started, take a look at src/app/page.tsx.
+You can generate QR codes in seconds and scan any QR code with your device. It also lets you save and manage your QR codes in one place.
+
+SwiftQR is perfect for personal use, business, or anywhere you need fast and easy QR code sharing.
